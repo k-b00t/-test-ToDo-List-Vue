@@ -12,12 +12,20 @@
   import List from '../components/List.vue'
   import AddTask from '../components/AddTask.vue'
 
+  import { mapMutations } from 'vuex';
+
   export default {
     name: 'home',
     components: {
       Header,
       List,
       AddTask
+    },
+    methods: {
+      ...mapMutations(['readtaskInit'])
+    },
+    created() {
+      this.readtaskInit();
     }
   }
 </script>
