@@ -18,21 +18,18 @@
 
 <script>
   import moment from 'moment';
-  import {
-    mapMutations  
-  } from 'vuex';
+  import { mapMutations } from 'vuex';
 
   export default {
     name: 'List',
     data() {
       return {
-        dateCache: [],
-        taskList: this.$store.state.taskListGlobal
+        dateCache: []
       }
     },
     computed: {
       taskListComputed() {
-        return this.taskList;
+        return this.$store.state.taskListGlobal;
       },
     },
     methods: {
@@ -56,10 +53,10 @@
       },
     },
     created() {
-      this.actualizeDateArray(this.taskList, this.dateCache);
+      this.actualizeDateArray(this.$store.state.taskListGlobal, this.dateCache);
     },
     beforeUpdate() {
-      this.actualizeDateArray(this.taskList, this.dateCache);
+      this.actualizeDateArray(this.$store.state.taskListGlobal, this.dateCache);
     }
   };
 </script>
@@ -69,11 +66,12 @@
   .rowList {
     overflow: hidden;
     margin-bottom: 100px;
+    transition: 300ms;
   }
   .deleteTask {
     position: relative;
     top: -10px;
-    right: -46px;
+    right: -40px;
     background: transparent;
     border: none;
   }

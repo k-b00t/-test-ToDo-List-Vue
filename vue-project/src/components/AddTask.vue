@@ -1,16 +1,17 @@
 <template>
-    <b-row class='addTaskRow'>
-      <b-col cols='12'>
-        <hr />
-        <b-form inline method='post'
-          @submit.prevent='addTask(inputValue)'
-          class='d-flex justify-content-between'>
-          <b-input :value='inputValueComputed' @input='updateInputTask'
-            type='text'  placeholder='Insert task here...' class='formInput' autocomplete='off'/>
-          <b-button type='submit' class='btn btn-danger'>Add</b-button>
-        </b-form>
-      </b-col>
-    </b-row>
+  <b-row class='addTaskRow'>
+    <b-col cols='12'>
+      <hr />
+      <b-form inline method='post'
+        @submit.prevent='addTask(inputValue)'
+        class='d-flex justify-content-between'>
+        <b-input :value='inputValueComputed' @input='updateInputTask'
+          type='text'  placeholder='Insert task here...' class='formInput' autocomplete='off'/>
+        <b-button type='submit' class='btn btn-danger btn-submit'>Add</b-button>
+      </b-form>
+      <hr/>
+    </b-col>
+  </b-row>
 </template>
 
 
@@ -21,7 +22,7 @@
     name: 'AddTask',
     data() {
       return {
-        inputValue: ''
+        inputValue: '',
       }
     },
     computed: {
@@ -41,14 +42,13 @@
 
 <style scoped>
   .addTaskRow {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 1140px;
     padding-bottom: 20px;
     background: white;
   }
   .formInput {
-    width: 90%;
+    width: 85%;
+  }
+  .btn-submit {
+    width: 13%;
   }
 </style>

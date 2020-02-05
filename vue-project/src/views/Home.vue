@@ -1,8 +1,8 @@
 <template>
   <b-container>
     <Header title='ToDo List'/>
-    <List />
     <AddTask />
+    <List />
   </b-container>
 </template>
 

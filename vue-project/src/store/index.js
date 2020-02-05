@@ -5,31 +5,107 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    url: 'https://k-b00t.developer.li:3001',
+    messageNewTask: '',
     taskListGlobal: []
   },
   mutations: {
     readtaskInit(state) {
-      state.taskListGlobal = JSON.parse(localStorage.getItem('tasks'));
+      fetch(`${state.url}/task`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      }).then((data)=> {
+        return data.json();
+      }).then((data)=>{
+        if(data.getTask) {
+          state.taskListGlobal = data.data;
+        } else {
+          this.commit('warningCatch', data.message);
+        }
+      }).catch((err)=>{
+        this.commit('warningCatch', err);
+      })
     },
     addTask(state, task) {
       if(task) {
-        state.taskListGlobal.push({
+        const taskObj = {
           date: Date.now(),
-          dateParsed: '',
+          dateParsed: 'initial',
           completed: false,
           task
-        });
+        }
+        fetch(`${state.url}/task`,{
+          method: 'POST',
+          body: JSON.stringify(taskObj),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include'
+        }).then((data)=>{
+          return data.json()
+        }).then((data)=>{
+          if(data.newTask) {
+            state.taskListGlobal.push(data.document);
+          } else {
+            this.commit('warningCatch', data.message);
+          }
+        }).catch((err)=>{
+          this.commit('warningCatch', err.message);
+        })
       }
-      localStorage.setItem('tasks', JSON.stringify(state.taskListGlobal));
     },
     deleteTask(state, index) {
-      state.taskListGlobal.splice(index, 1);
-      localStorage.setItem('tasks', JSON.stringify(state.taskListGlobal));
+      fetch(`${state.url}/task/${state.taskListGlobal[index].task}`, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      }).then((data)=>{
+        return data.json()
+      }).then((data)=>{
+        if(data.deleteTask) {
+          state.taskListGlobal.splice(index, 1);
+        } else {
+          this.commit('warningCatch', data.message);
+        }
+      }).catch((err)=>{
+        this.commit('warningCatch', err);
+      })
     },
     setCompletedTask(state, index) {
-      state.taskListGlobal[index].completed = !state.taskListGlobal[index].completed;
-      localStorage.setItem('tasks', JSON.stringify(state.taskListGlobal));
+      const dataObj = {...state.taskListGlobal[index]};
+      dataObj.completed = !dataObj.completed;
+      fetch(`${state.url}/task`, {
+        method: 'PUT',
+        body: JSON.stringify(dataObj),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      }).then((data)=>{
+        return data.json();
+      }).then((data)=>{
+        if(data.putTask){
+          state.taskListGlobal[index].completed = !state.taskListGlobal[index].completed;
+        } else {
+          this.commit('warningCatch', data.message);
+        }
+      }).catch((err)=>{
+        this.commit('warningCatch', err);
+      })
     },
+    warningCatch(state, message) {
+      state.messageNewTask = message;
+      setTimeout(()=> state.messageNewTask = '' , 2500);
+    }
   },
   actions: { },
   modules: { }
