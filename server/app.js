@@ -6,7 +6,8 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
-const https = require('https');
+const http = require('http');
+//const https = require('https');
 const express = require('express');
 const router = require('./router/router');
 
@@ -28,19 +29,21 @@ api.use(cookieParser());
 api.use(router);
 
 
-const certificate = {
+const staticServer = http.createServer(app);
+const dinamicServer = http.createServer(api);
+
+/* const certificate = {
     key: fs.readFileSync('./certificates/key'),
     cert: fs.readFileSync('/certificates/pem')
   };
 
 const staticServer = https.createServer(certificate, app);
-const dinamicServer = https.createServer(certificate, api);
+const dinamicServer = https.createServer(certificate, api); */
 
-
-staticServer.listen(443, ()=>{
-    console.log('Node0:80       statusconnected')
+staticServer.listen(80, ()=>{
+    console.log('Node0:80       status:connected')
 });
 
 dinamicServer.listen(3001, ()=>{
-    console.log('Node1:3001     statusconnected')
+    console.log('Node1:3001     status:connected')
 });

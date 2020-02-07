@@ -5,13 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    url: 'https://k-b00t.developer.li:3001',
+    url: 'http://localhost:3001',
+    username: '',
     messageNewTask: '',
     taskListGlobal: []
   },
   mutations: {
     readtaskInit(state) {
-      fetch(`${state.url}/task`, {
+      fetch(`${state.url}/tasks`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -49,8 +50,8 @@ export default new Vuex.Store({
         }).then((data)=>{
           return data.json()
         }).then((data)=>{
-          if(data.newTask) {
-            state.taskListGlobal.push(data.document);
+          if(data.postTask) {
+            state.taskListGlobal.push(taskObj);
           } else {
             this.commit('warningCatch', data.message);
           }
