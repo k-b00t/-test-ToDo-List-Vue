@@ -5,7 +5,7 @@
         @click='setCompletedTask(i)'
         :class='getCompletedTask(task["completed"])'
         role="alert">
-        <span>{{ task.task }}</span>
+        <p>{{ task.task }}</p>
         <div class='d-flex flex-column'>
           <button @click.stop='deleteTask(i)' class='deleteTask'>x</button>
           <small>{{ task.dateParsed }}</small>
