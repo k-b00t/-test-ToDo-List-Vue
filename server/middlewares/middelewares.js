@@ -123,7 +123,7 @@ module.exports = {
                     message: 'Unauthorized'
                 });  
             } else {
-                mySql.deleteTask(req.params.task, res);
+                mySql.deleteTask(req.params.id, res);
             };
         });
     },

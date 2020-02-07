@@ -51,6 +51,7 @@ export default new Vuex.Store({
           return data.json()
         }).then((data)=>{
           if(data.postTask) {
+            taskObj.id = data.id;
             state.taskListGlobal.push(taskObj);
           } else {
             this.commit('warningCatch', data.message);
@@ -61,7 +62,7 @@ export default new Vuex.Store({
       }
     },
     deleteTask(state, index) {
-      fetch(`${state.url}/task/${state.taskListGlobal[index].task}`, {
+      fetch(`${state.url}/task/${state.taskListGlobal[index].id}`, {
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

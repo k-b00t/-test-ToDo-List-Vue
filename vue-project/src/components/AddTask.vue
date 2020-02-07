@@ -5,8 +5,7 @@
       <b-form inline method='post'
         @submit.prevent='addTask(inputValue)'
         class='d-flex justify-content-between'>
-        <b-input :value='inputValueComputed' @input='updateInputTask'
-          type='text'  placeholder='Insert task here...' class='formInput' autocomplete='off'/>
+        <textarea v-model='inputValue' type='text'  placeholder='Insert task here...' class='formInput form-control' autocomplete='off'></textarea>
         <b-button type='submit' class='btn btn-danger btn-submit'>Add</b-button>
       </b-form>
       <hr/>
@@ -25,15 +24,7 @@
         inputValue: '',
       }
     },
-    computed: {
-      inputValueComputed() {
-        return this.inputValue;
-      }
-    },
     methods: {
-      updateInputTask(e) {
-        this.inputValue = e;
-      },
       ...mapMutations(['addTask'])
     }
   }

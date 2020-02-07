@@ -9,7 +9,7 @@
       <input type='password' autocomplete='off' class='form-control my-1'
         :value='password' @input='setPasswordValue'
         :placeholder='placeholderPassword'>
-      <button type='submit' class='btn btn-info my-1'>LogIn</button>
+      <button type='submit' class='btn btn-info btn-block my-1'>LogIn</button>
     </form>
   </div>
 </template>
@@ -53,6 +53,7 @@
         this.form.username.value = e.target.value
       },
       setPasswordValue(e) {
+        console.log(e)
         this.form.password.value = e.target.value
       },
       submitForm() {

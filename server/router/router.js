@@ -11,7 +11,7 @@ router.delete('/user/:username', middleware.deleteUser);
 router.get('/tasks', middleware.getTask)
 router.post('/task', middleware.postTask)
 router.put('/task', middleware.putTask)
-router.delete('/task/:task', middleware.deleteTask)
+router.delete('/task/:id', middleware.deleteTask)
 
 router.get('/testdb', middleware.testDB);
 

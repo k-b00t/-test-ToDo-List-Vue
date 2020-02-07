@@ -82,7 +82,9 @@ module.exports = {
         });
     },
     getTask: (user, res)=>{
-        connection.query(`SELECT * FROM vue_todo.tasks JOIN users ON tasks.id_user=users.id WHERE users.name='${user}'`, (err, result)=>{
+        connection.query(`SELECT tasks.id, tasks.task, tasks.completed, tasks.date, tasks.dateParsed
+            FROM vue_todo.tasks LEFT JOIN vue_todo.users ON tasks.id_user=users.id WHERE users.name='${user}'`,
+        (err, result)=>{
             if(err) {
                 res.send({
                     getTask: false,
@@ -104,14 +106,17 @@ module.exports = {
     postTask: (user, task, res)=> {
         connection.query(`INSERT INTO vue_todo.tasks (id_user, date, dateParsed, completed, task)
             SELECT id, ${task.date}, '${task.dateParsed}', ${task.completed}, '${task.task}' FROM vue_todo.users WHERE name='${user}'`,
-            (err)=>{
+            (err, result)=>{
                 if(err) {
                     res.send({
                         postTask: false,
                         message: 'Internal db error'
                     })
                 } else {
-                    res.send({ postTask: true });
+                    res.send({
+                        postTask: true,
+                        id: result.insertId
+                    });
                 };
             });
     },
@@ -127,8 +132,8 @@ module.exports = {
             };
         });
     },
-    deleteTask: (task, res)=>{
-        connection.query(`DELETE FROM vue_todo.tasks WHERE task='${task}'`, (err)=>{
+    deleteTask: (id, res)=>{
+        connection.query(`DELETE FROM vue_todo.tasks WHERE id='${id}'`, (err)=>{
             if(err) {
                 res.send({
                     deleteTask: false,
